@@ -18,7 +18,7 @@ ENV PATH="/usr/local/miniconda/bin:${PATH}"
 RUN echo ". /usr/local/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
 
 # Clone repository and set up environment
-RUN git clone https://github.com/<username>/babydoctor.git ~/git/BabyDoctor
+RUN git clone https://github.com/photomz/BabyDoctor.git ~/git/BabyDoctor
 RUN conda env create -f ~/git/BabyDoctor/llmenv.yaml
 RUN echo "source activate llmforbio" >> ~/.bashrc
 RUN /bin/bash -c "source ~/.bashrc"
