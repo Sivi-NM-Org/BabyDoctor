@@ -1,10 +1,10 @@
 ---
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   labels:
     app: {app_name}
-    release: "1.1.0"
+    release: "1.0.0"
     env: {env}
   name: {app_name}
   namespace: {ns}
@@ -13,9 +13,9 @@ spec:
   selector:
     matchLabels:
       app: {app_name}
-      release: "1.1.0"
-      env: {env}  
-  strategy: 
+      release: "1.0.0"
+      env: {env} 
+  strategy:
     rollingUpdate:
       maxSurge: 50%
       maxUnavailable: 50%
@@ -24,18 +24,29 @@ spec:
     metadata:
       labels:
         app: {app_name}
-        release: "1.1.0"
+        release: "1.0.0"
         env: {env}
     spec:
       containers:
-      - envFrom:
-        - configMapRef:
-            name: ssai-{env}-config-map
-        image: {image}
+      - image: {image}
         imagePullPolicy: Always
         name: {app_name}
         ports:
         - containerPort: 80
+        resources:
+            requests:
+              memory: "50Mi"
+              cpu: "100m"
+            limits:
+              memory: "100Mi"
+              cpu: "200m"
+        terminationMessagePath: /{env}/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       nodeSelector:
         env: {nodename}
         platform: apps
@@ -49,28 +60,27 @@ spec:
         value: {nodename}
         effect: "NoSchedule"
 status: {}
-
 ---
-
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
   labels:
     app: {app_name}
     env: {env}
-    release: "1.1.0"
+    release: "1.0.0"
   name: {app_name}
   namespace: {ns}
 spec:
-  externalTrafficPolicy: Cluster 
-  ports:  
+  externalTrafficPolicy: Cluster
+  ports:
   - name: http
     port: 80
+    protocol: TCP
     targetPort: 8080
   selector:
     app: {app_name}
     env: {env}
-    release: "1.1.0"
+    release: "1.0.0"
   sessionAffinity: None
   type: NodePort
 status:
