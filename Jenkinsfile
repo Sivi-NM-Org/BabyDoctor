@@ -1,6 +1,6 @@
-k8snpmpipeline {
+k8spythonpipeline {
 
-     BUILD_TOOL = 'npm'
+     BUILD_TOOL = 'maven'
 
      developmentServer = 'DEV'
 
@@ -10,13 +10,14 @@ k8snpmpipeline {
 
      label= 'LINUX'
 
-     appName =  'sqml-pipe-ui-vue3'
+     appName =  'sdx-rad-sqml'
 
-     innerPort= '8080'
+     innerPort= '8000'
 
-     outerPort= '8080'
+     outerPort= '8000'
 
-	   args = ''
+     args = ''
 
      JENKINS_NOTIFICATIONS_TO = 'tag.ananthraj@gmail.com'
+
     }
