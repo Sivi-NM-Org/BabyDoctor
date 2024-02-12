@@ -1,4 +1,4 @@
-k8snpmpipelinesqmlpipe {
+k8snpmpipeline {
 
      BUILD_TOOL = 'npm'
 
