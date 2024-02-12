@@ -1,5 +1,5 @@
 # Use NVIDIA CUDA as base image
-FROM nvidia/cuda:latest
+FROM nvidia/cuda:11.4.1-base
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
